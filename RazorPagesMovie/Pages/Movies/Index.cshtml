@@ -1,0 +1,78 @@
+﻿@page
+@model RazorPagesMovie.Pages.Movies.IndexModel
+
+@{
+    ViewData["Title"] = "Movies List";
+}
+
+<h1>Movies List</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary float-end">Create New</a>
+</p>
+<form>
+    <p>
+        <input type="search" placeholder="Movie Name"/>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Movie[0].Rating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Movie) {
+        <tr>
+            <td width="15%">
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td width="10%">
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td id="Genre">
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td style="text-align: right" width="9%"> 
+                Rs. @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td width="10%">
+            @{
+                for (var i = 0; i <  Int32.Parse(item.Rating); i++)
+                {
+                    <i class="bi bi-star-fill checked"></i>
+                }
+                if(Int32.Parse(item.Rating) < 5)
+                {
+                    for (var j = 0; j <  (5 -Int32.Parse(item.Rating)); j++)
+                    {
+                        <i class="bi bi-star-fill"></i>
+                    }
+                }
+            }
+            </td>
+            <td width="20%">
+                <a asp-page="./Edit" asp-route-id="@item.ID" class="btn btn-success"><i class="bi bi-pencil-square"></i>Edit</a> 
+                <a asp-page="./Details" asp-route-id="@item.ID" class="btn btn-warning text-white"> Details</a> 
+                <a asp-page="./Delete" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
